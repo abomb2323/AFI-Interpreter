@@ -7,4 +7,9 @@ A mathematical expressions begins and ends with { }, telling the language to use
 EX: [ output( {10+2} ) ] will print out '12'
 
 
+[if(conditional) then [body] elif(conditional) then [body] else then [body]]
+[while(conditional) do [body]]
+
+
+
 ********************************************************************
