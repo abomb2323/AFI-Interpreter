@@ -8,6 +8,7 @@ PMDAS (Parentheses, Multiplication, Division, Addition Subtraction) Expressions
 """
 
 import sys
+import os
 import mathAFI
 
 #Takes input string, splits the spaces, and figures out what to do with it
@@ -26,11 +27,12 @@ def main():
         filename = sys.argv[1]
         fileext = ".afi"
         if fileext in filename:
-            file = open(filename, r)
+            file = open(os.getcwd() + "\\" + filename)
+            print(file.read())
         elif "." in filename:
             print("ERROR: wrong file extension, please use .afi")
         else:
-            file = open(filename + ".afi", r)
+            file = open(os.getcwd() + "\\" + filename + ".afi", r)
     else:
         print("Usage: python AFI.py <filename>")
 main()

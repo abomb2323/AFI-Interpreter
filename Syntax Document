@@ -1,0 +1,10 @@
+*************************SYNTAX DOCUMENT****************************
+
+
+A valid 'line' of AFI code begins and ends with [ ], informing the interpreter that there is code to parse.
+A mathematical expressions begins and ends with { }, telling the language to use the math parser
+
+EX: [ output( {10+2} ) ] will print out '12'
+
+
+********************************************************************
