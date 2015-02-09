@@ -1,0 +1,4 @@
+[if(conditional) then [body] elif(conditional) then [body] else then [body]]
+[while(conditional) do [body]]
+
+[if(var = 2) then [ output( { (30 + 2)^2 / 200})]]

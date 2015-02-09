@@ -4,6 +4,11 @@
 A valid 'line' of AFI code begins and ends with [ ], informing the interpreter that there is code to parse.
 A mathematical expressions begins and ends with { }, telling the language to use the math parser
 
+Anything not in [ ] is considered a comment, and is not valued anything by the interpreter.
+
+Nesting conditionals can be done as follows:
+[if(conditional) then [ while(conditional) do [ body ] ] ]
+
 EX: [ output( {10+2} ) ] will print out '12'
 
 

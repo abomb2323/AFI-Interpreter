@@ -25,17 +25,24 @@ def main():
 
             for token in lexer.lex(inputStr):
                 print(token)
-                
+
     elif len(sys.argv) < 3:
         filename = sys.argv[1]
         fileext = ".afi"
         if fileext in filename:
             file = open(os.getcwd() + "\\" + filename)
-            print(file.read())
+            
+            for line in file:
+                for token in lexer.lex(line):
+                    print(token)
+
         elif "." in filename:
             print("ERROR: wrong file extension, please use .afi")
         else:
-            file = open(os.getcwd() + "\\" + filename + ".afi", r)
+            file = open(os.getcwd() + "\\" + filename + ".afi")
+            for line in file:
+                for token in lexer.lex(line):
+                    print(token)
     else:
         print("Usage: python AFI.py <filename>")
 main()
