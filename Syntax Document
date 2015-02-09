@@ -1,19 +1,21 @@
 *************************SYNTAX DOCUMENT****************************
 
 
-A valid 'line' of AFI code begins and ends with [ ], informing the interpreter that there is code to parse.
+A valid 'block' of AFI code begins and ends with [ ], informing the interpreter that there is code to parse.
+
 A mathematical expressions begins and ends with { }, telling the language to use the math parser
 
-Anything not in [ ] is considered a comment, and is not valued anything by the interpreter.
+The only things that can be written outside of blocks is an 'identifier'
+i.e. 'if(conditional)' shows that the following block should only be run if the conditional is met.
 
 Nesting conditionals can be done as follows:
-[if(conditional) then [ while(conditional) do [ body ] ] ]
+if(conditional) [ while(conditional) [ body ] ]
 
 EX: [ output( {10+2} ) ] will print out '12'
 
 
-[if(conditional) then [body] elif(conditional) then [body] else then [body]]
-[while(conditional) do [body]]
+if(conditional)[body] elif(conditional) [body] else [body]]
+while(conditional) [body]
 
 
 
