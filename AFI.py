@@ -11,9 +11,16 @@ import sys
 import os
 import mathAFI
 
-#Takes input string, splits the spaces, and figures out what to do with it
-def execCmd(inputStr):
-    return mathAFI.calculate(inputStr)
+def isValidLine(inputStr):
+    if inputStr[0] == '[' and inputStr[len(inputStr) - 1] == ']':
+        return True
+
+#Takes input string, and figures out what to do with it
+def parse(inputStr):
+    if isValidLine(inputStr):
+        return mathAFI.calculate(inputStr.replace('[', '').replace(']', ''))
+    else:
+        return "ERROR: Non-Valid Line"
 
 #Main instructional function.
 def main():
@@ -22,7 +29,7 @@ def main():
         print("Welcome to AFI V",version,"! Enter an expression below:", sep='')
         while 1:
             inputStr = input("|")
-            print("|" + str(execCmd(inputStr)), sep='')
+            print("|" + str(parse(inputStr)), sep='')
     elif len(sys.argv) < 3:
         filename = sys.argv[1]
         fileext = ".afi"
