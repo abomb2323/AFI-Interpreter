@@ -15,7 +15,9 @@ def execCmd(inputStr):
 
     return mathAFI.calculate(inputStr)
 
-def mainLoop():
+
+#Main instructional function.
+def main():
     version = "0.0.2"
     if len(sys.argv) == 1:
     	print("Welcome to AFI V",version,"! Enter an expression below:", sep='')
@@ -32,4 +34,4 @@ def mainLoop():
             file = open(filename + ".afi", r)
     else:
     	print("Usage: python AFI.py <filename>")
-mainLoop()
+main()
