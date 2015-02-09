@@ -24,7 +24,12 @@ def mainLoop():
         	print("|" + str(execCmd(inputStr)), sep='')
     elif len(sys.argv) < 3:
     	filename = sys.argv[1]
-        print(filename)
+        if ".afi" in filename:
+            file = open(filename, r)
+        elif "." in filename:
+            print("ERROR: wrong file extension, please use .afi")
+        else:
+            file = open(filename + ".afi", r)
     else:
     	print("Usage: python AFI.py <filename>")
 mainLoop()
