@@ -24,6 +24,7 @@ def mainLoop():
         	print("|" + str(execCmd(inputStr)), sep='')
     elif len(sys.argv) < 3:
     	filename = sys.argv[1]
+        print(filename)
     else:
     	print("Usage: python AFI.py <filename>")
 mainLoop()
