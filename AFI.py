@@ -11,20 +11,20 @@ import sys
 import os
 import mathAFI
 import lexAFI
+import parseAFI
 
 #Main instructional function.
 def main():
     version = "0.0.2"
 
     lexer = lexAFI.generateLexer()
+    parser = parseAFI.getParser()
 
     if len(sys.argv) == 1:
         print("Welcome to AFI V",version,"! Enter an expression below:", sep='')
         while 1:
             inputStr = input("|")
-
-            for token in lexer.lex(inputStr):
-                print(token)
+            print("|" + str(parser.parse(lexer.lex(inputStr))))
 
     elif len(sys.argv) < 3:
         filename = sys.argv[1]
@@ -34,7 +34,7 @@ def main():
             
             for line in file:
                 for token in lexer.lex(line):
-                    print(token)
+                    print(parser.parse(token).eval())
 
         elif "." in filename:
             print("ERROR: wrong file extension, please use .afi")
