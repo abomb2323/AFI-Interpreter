@@ -7,89 +7,90 @@ AFI Parser
 
 from rply import ParserGenerator
 
-import mathAFI
+from rply.token import BaseBox
 
-class Node(object):
-	def __eq__(self, other):
-		if not isinstance(other, Node):
-			return NotImplemented
-		return (type(self) is type(other) and self.__dict__ == other.__dict__)
-	def __ne__(self, other):
-		return not (self == other)
+class Number(BaseBox):
+    def __init__(self, value):
+        self.value = value
 
-class Block(Node):
-	def __init__(self, statements):
-		self.statements = statements
+    def eval(self):
+        return self.value
 
-#Statement Node
-class Statement(Node):
-	def __init__(self, expr):
-		self.expr = expr
+class BinaryOp(BaseBox):
+    def __init__(self, left, right):
+        self.left = left
+        self.right = right
 
-#Number Node
-class Number(Node):
-	def __init__(self, value):
-		self.value = value
+class Add(BinaryOp):
+    def eval(self):
+        return self.left.eval() + self.right.eval()
 
+class Sub(BinaryOp):
+    def eval(self):
+        return self.left.eval() - self.right.eval()
+
+class Mult(BinaryOp):
+    def eval(self):
+        return self.left.eval() * self.right.eval()
+
+class Div(BinaryOp):
+    def eval(self):
+        return self.left.eval() / self.right.eval()
+
+class Pow(BinaryOp):
 	def eval(self):
-		return self.value
-
-class MathExpr(Node):
-	def __init__(self, expr):
-		self.expr = expr
-
-	def eval(self):
-		return mathAFI.calculate(self.expr)
+		return self.left.eval() ** self.right.eval()
 
 afiParser = ParserGenerator(
-#A list of token names accepted by the Parser
-	["LBRACKET", "RBRACKET", "LBRACE", "RBRACE", "LPARENS", "RPARENS",
- 	 "QUOTE", "IF", "ELSE", "ELIF", "WHILE", "NUMBER",
- 	 "WORD", "EQUAL", "ADD", "SUB", "MULT", "DIV", "POW"
-	],
-	cache_id="afiparser"
+    # A list of all token names, accepted by the parser.
+    ['LPARENS', 'RPARENS', 'NUMBER', 'ADD', 'SUB', 'MULT', 'DIV', 'POW'
+    ],
+    # A list of precedence rules with ascending precedence, to
+    # disambiguate ambiguous production rules.
+    precedence=[
+    	
+        ('left', ['ADD', 'SUB']),
+        ('left', ['MULT', 'DIV']),
+        ('left', ['POW'])
+    ]
 )
-
-
 
 @afiParser.production('expression : NUMBER')
 def expression_number(p):
-	# p is a list of the pieces matched by the right hand side of the rule
-	return Number(int(p[0].getstr())).eval()
+    # p is a list of the pieces matched by the right hand side of the
+    # rule
+    return Number(int(p[0].getstr()))
 
 @afiParser.production('expression : LPARENS expression RPARENS')
 def expression_parens(p):
-	return p[1]	
-
-
+    return p[1]
 
 @afiParser.production('expression : expression ADD expression')
-def expression_add(p):
-	return '+'
-
-# @afiParser.production('expression : expression SUB expression')
-def expression_sub(p):
-	return '-'
-
+@afiParser.production('expression : expression SUB expression')
 @afiParser.production('expression : expression MULT expression')
-def expression_mult(p):
-	return '*'
-
 @afiParser.production('expression : expression DIV expression')
-def expression_div(p):
-	return '/'
-
 @afiParser.production('expression : expression POW expression')
-def expression_pow(p):
-	return '^'
+def expression_binop(p):
+    left = p[0]
+    right = p[2]
+    if p[1].gettokentype() == 'ADD':
+        return Add(left, right)
+    elif p[1].gettokentype() == 'SUB':
+        return Sub(left, right)
+    elif p[1].gettokentype() == 'MULT':
+        return Mult(left, right)
+    elif p[1].gettokentype() == 'DIV':
+        return Div(left, right)
+    elif p[1].gettokentype() == 'POW':
+    	return Pow(left, right)
+    else:
+        raise AssertionError('Oops, this should not be possible!')
 
-@afiParser.production('expression : LBRACE expression RBRACE')
-def expression_mathexpr(p):
-	print(p)
-	return MathExpr(p[1]).eval()
+@afiParser.error
+def error_handler(token):
+	raise ValueError("Ran into a %s where it wasn't expected" % token.gettokentype())
 
-
-afiparse = afiParser.build()
+parser = afiParser.build()
 
 def getParser():
-	return afiparse
+	return parser

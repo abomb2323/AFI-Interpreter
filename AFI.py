@@ -9,7 +9,6 @@ PMDAS (Parentheses, Multiplication, Division, Addition Subtraction) Expressions
 
 import sys
 import os
-import mathAFI
 import lexAFI
 import parseAFI
 
@@ -24,7 +23,7 @@ def main():
         print("Welcome to AFI V",version,"! Enter an expression below:", sep='')
         while 1:
             inputStr = input("|")
-            print("|" + str(parser.parse(lexer.lex(inputStr))))
+            print("|" + str(parser.parse(lexer.lex(inputStr)).eval()))
 
     elif len(sys.argv) < 3:
         filename = sys.argv[1]
