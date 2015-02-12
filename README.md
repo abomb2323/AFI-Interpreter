@@ -6,3 +6,4 @@ tokens that make up the language.
 
 Next Step: Parsing through the tokens to create language structure for the interpreter to go through.
 
+CURRENT VERSION: 0.1.0:1

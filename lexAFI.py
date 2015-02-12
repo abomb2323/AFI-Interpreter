@@ -7,6 +7,8 @@ AFI Lexer Using RPly
 
 from rply import LexerGenerator
 
+#Generate dem lexers
+#Tokens are used with RegEx to figure shit out.
 def generateLexer():
 	afiLex = LexerGenerator()
 	afiLex.ignore(r'\s+')
