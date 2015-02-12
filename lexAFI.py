@@ -22,8 +22,7 @@ def generateLexer():
 	afiLex.add("ELIF", r"elif")
 	afiLex.add("WHILE", r"while")
 	afiLex.add("NUMBER", r'\d+')
-	#Fuck Regex, need to fix the delimiters to not include the '^' symbol..
-	#afiLex.add("WORD", r"[a-zA-z_][a-zA-Z0-9][^\^]*")
+	afiLex.add("WORD", r"\w+[^\^;]")
 	afiLex.add("EQUAL", r'\=')
 	afiLex.add("ADD", r'\+')
 	afiLex.add("SUB", r'\-')
