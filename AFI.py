@@ -32,16 +32,14 @@ def main():
             file = open(os.getcwd() + "\\" + filename)
             
             for line in file:
-                for token in lexer.lex(line):
-                    print(parser.parse(token).eval())
+                print("|" + str(parser.parse(lexer.lex(line)).eval()))
 
         elif "." in filename:
             print("ERROR: wrong file extension, please use .afi")
         else:
             file = open(os.getcwd() + "\\" + filename + ".afi")
             for line in file:
-                for token in lexer.lex(line):
-                    print(token)
+                print("|" + str(parser.parse(lexer.lex(line)).eval()))
     else:
         print("Usage: python AFI.py <filename>")
 main()
