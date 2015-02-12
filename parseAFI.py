@@ -9,6 +9,15 @@ from rply import ParserGenerator
 
 from rply.token import BaseBox
 
+#AST Class for Comparing things
+class Equivalence(BaseBox):
+    def __init__(self, left, right):
+        self.left = left
+        self.right = right
+
+    def eval(self):
+        return self.left == self.right
+
 #Number AST class
 #Number can have a value, derp
 class Number(BaseBox):
@@ -53,7 +62,7 @@ class Pow(BinaryOp):
 #Generating the parser's information, including what keywords will be used.
 afiParser = ParserGenerator(
     # A list of all token names, accepted by the parser.
-    ['LPARENS', 'RPARENS', 'NUMBER', 'ADD', 'SUB', 'MULT', 'DIV', 'POW'
+    ['LPARENS', 'RPARENS', 'NUMBER', 'ADD', 'SUB', 'MULT', 'DIV', 'POW', 'SEMICOLON', 'EQUAL'
     ],
     # A list of precedence rules with ascending precedence, to
     # disambiguate ambiguous production rules.
@@ -64,6 +73,16 @@ afiParser = ParserGenerator(
         ('left', ['POW'])
     ]
 )
+
+#A line is an expression followed by a semicolon
+@afiParser.production('line : expression SEMICOLON')
+def line(p):
+    return p[0]
+
+#An equivalence expression is an expression, followed by two equals signs, followed by another expression
+@afiParser.production('expression : expression EQUAL EQUAL expression')
+def equivalence_expression(p):
+    return Equivalence(p[0], p[3])
 
 #An expression can be a number
 @afiParser.production('expression : NUMBER')
@@ -99,6 +118,7 @@ def expression_binop(p):
     	return Pow(left, right)
     else:
         raise AssertionError('Oops, this should not be possible!')
+
 
 #Error handler, if it runs into a token that isn't expected.
 @afiParser.error

@@ -31,4 +31,5 @@ def generateLexer():
 	afiLex.add("MULT", r'\*')
 	afiLex.add("DIV", r'\/')
 	afiLex.add("POW", r'\^')
+	afiLex.add("SEMICOLON", r'\;')
 	return afiLex.build()
